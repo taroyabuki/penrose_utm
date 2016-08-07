@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="keywords" content="テューリングマシン, universal turing machine, ペンローズ, テューリング, 万能テューリングマシン" />
-<title>ペンローズ『皇帝の新しい心』の万能テューリング機械</title>
-<style>
-.output {font-weight:bold;}
-</style>
-</head>
-<body>
-
 <h1>ペンローズ『皇帝の新しい心』の万能テューリング機械</h1>
 
 <p><a href="http://www.amazon.co.jp/exec/obidos/ASIN/4622040964/inquisitor-22/"><img src="http://ecx.images-amazon.com/images/I/51eIfY6KVdL._SL160_.jpg" alt="皇帝の新しい心―コンピュータ・心・物理法則" style="float: right;" />ペンローズ『皇帝の新しい心』（みすず書房, 1994）</a>（以下ENM）の万能テューリング機械（のための万能テューリング機械）をMathematicaで実装した。これは自己完結的な説明ではない。適宜ENMを参照してほしい。</p>
@@ -787,16 +774,3 @@ result = tmTest[u, initTape];</pre>
 <p>同じくLispだけの場合も簡単。ちょっと違うけどだいたいこんな感じ。</p>
 
 <pre>(EVAL '((LAMBDA (X) (EVAL X)) '((LAMBDA (X) (EVAL X)) '((LAMBDA (X) (+ X 1)) '1))))</pre>
-<hr style='clear:both;'/>
-
-<p><a href="../../">TOP</a></p>
-
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-567413-1";
-urchinTracker();
-</script>
-
-</body>
-</html>
