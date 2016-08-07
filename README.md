@@ -787,10 +787,80 @@ result = tmTest[u, initTape];</pre>
 <li>EUC によるLCD(6, 8)の計算：611931092371ステップ（Stringで4670s）</li>
 </ul>
 
-<p>ヒントではないけど，Mathematicaだけなら簡単。最終的にはたぶんこんな感じ。</p>
 
-<pre>ReleaseHold[Hold[ReleaseHold[#1[#2]] &amp;][Hold[Hold[ReleaseHold[#1[#2]] &amp;], Hold[Hold[#1 + 1 &amp;], 1]]]]</pre>
+Mathematicaだけでこういう話をするなら次のようになる。（式が整数にならないから対角線論法を使えないと思うかもしれない。詳細は割愛するが，その心配は無用である。）
 
-<p>同じくLispだけの場合も簡単。ちょっと違うけどだいたいこんな感じ。</p>
+```
+Mathematicaで「1を足す機械」（関数）で「1というテープ」（引数）を処理する。
 
-<pre>(EVAL '((LAMBDA (X) (EVAL X)) '((LAMBDA (X) (EVAL X)) '((LAMBDA (X) (+ X 1)) '1))))</pre>
+In[1]:= Function[{x}, x + 1][1]
+
+Out[1]= 2
+
+「1を足す機械」を記述する。
+
+In[2]:= plus = Hold[Function[{x}, x + 1]]
+
+Out[2]= Hold[Function[{x}, x + 1]]
+
+同様に，「1というテープ」を記述する。
+
+In[3]:= tape = Hold[1]
+
+Out[3]= Hold[1]
+
+「1を足す機械」で「1というテープ」を処理するというテープを記述する。
+
+In[4]:= tape2 = plus[tape]
+
+Out[4]= Hold[Function[{x}, x + 1]][Hold[1]]
+
+これをReleaseHoldして結果を得る。つまり，ReleaseHoldは万能チューリング機械である。
+
+In[5]:= ReleaseHold[tape2]
+
+Out[5]= 2
+
+万能チューリング機械を記述する。
+
+In[6]:= utm = Hold[ReleaseHold]
+
+Out[6]= Hold[ReleaseHold]
+
+「万能チューリング機械で先のテープを読む」というテープを記述する。
+
+In[7]:= tape3 = utm[tape2]
+
+Out[7]= Hold[ReleaseHold][Hold[Function[{x}, x + 1]][Hold[1]]]
+
+万能チューリング機械でこのテープを読む。
+
+In[8]:= ReleaseHold[tape3]
+
+Out[8]= 2
+
+「万能チューリング機械で先のテープを読む」というテープを記述する。
+
+In[9]:= tape4 = utm[tape3]
+
+Out[9]= Hold[ReleaseHold][Hold[ReleaseHold][Hold[Function[{x}, x + 1]][Hold[1]]]]
+
+万能チューリング機械でこのテープを読む。
+
+In[10]:= ReleaseHold[tape4]
+
+Out[10]= 2
+
+まとめ
+
+In[11]:= ReleaseHold[
+ Hold[ReleaseHold][Hold[ReleaseHold][Hold[Function[{x}, x + 1]][Hold[1]]]]]
+
+Out[11]= 2
+```
+
+Lispならこんな感じか。
+
+```lisp
+(EVAL '((LAMBDA (X) (EVAL X)) '((LAMBDA (X) (EVAL X)) '((LAMBDA (X) (+ X 1)) '1))))
+```
