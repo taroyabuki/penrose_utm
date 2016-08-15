@@ -11,9 +11,10 @@ int main()
 {
   auto t0 = std::chrono::high_resolution_clock::now();
   
-  penrose::machine utm = penrose::machine(new penrose::stringTape(), new penrose::stringTape());
-  //penrose::machine utm = penrose::machine(new penrose::listTape(), new penrose::listTape());
-  
+  auto utm = penrose::emulator<vector<int>>();
+  //auto utm = penrose::emulator<list<int>>();
+  //auto utm = penrose::emulator<string>();
+
   utm.emulate(penrose::un1, { 1, 1, 1 });                                                     //UN(3 + 1)
   //utm.emulate(penrose::un2, { 1, 1, 1, 1, 1, 1 });                                          //UN(6 * 2)
   //utm.emulate(penrose::xn1, { 1, 0, 1, 0, 1, 1, 0 });                                       //XN(3 + 1)
@@ -27,6 +28,7 @@ int main()
   
   auto t1 = std::chrono::high_resolution_clock::now();
   cout << "steps: " << utm.getSteps() << endl;
+  cout << "max tape length: " << utm.getMaxTapeLength() << endl;
   cout << "left tape: " << utm.getLTape() << endl;
   cout << "time: " << std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000. << endl;
   return 0;

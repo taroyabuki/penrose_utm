@@ -61,7 +61,7 @@ alignPlot[result]</pre>
 
 <pre class="input">$RecursionLimit = Infinity;
 
-decodeDecimal[n_] := 
+decodeDecimal[n_] :=
  Reap[decodeBinary[Join[{1, 1, 0}, IntegerDigits[n, 2], {1, 1, 0}]]][[2, 1]]
 
 decodeBinary[{}] := {}
@@ -119,7 +119,7 @@ makeRuleTable[in_] :=
 <pre>makeRule[decodedList_] :=
  MapIndexed[With[{i = First[#2] - 1},
      {Quotient[i, 2], Mod[i, 2]} -&gt; toTriple[#1]] &amp;,
-   Split[decodedList, 
+   Split[decodedList,
     And[# =!= R, # =!= L, # =!= STOP] &amp;]] /. {L -&gt; -1, R -&gt; 1, STOP -&gt; 0}</pre>
 
 <p>例として，UN+1 (177642)のルールを作る。</p>
@@ -260,7 +260,7 @@ Last[result]</pre>
 <pre>xn2 = 10389728107;
 result = tmTest[xn2, {1, 0, 1, 0, 0, 1, 1, 0}];
 Last[result]</pre>
- 
+
 <pre>{{0, 9, 8}, {{0, 1, 0, 1, 0, 0, 0, 1, 1}, 0}}</pre>
 
 <p>結果はXNで010100011，つまり1100<sub>2</sub>=12<sub>10</sub>である。</p>
@@ -283,7 +283,7 @@ Last[result]</pre>
 <pre>un2 = 1492923420919872026917547669;
 result = tmTest[un2, {1, 1, 1, 1, 1, 1}];
 Last[result]</pre>
- 
+
 <pre>{{0, 13, 12}, {{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 0}}</pre>
 
 <p>結果はUNで111111111111，つまり12<sub>10</sub>である。</p>
@@ -309,7 +309,7 @@ Last[result]</pre>
 <pre>xn1 = 450813704461563958982113775643437908;
 result = tmTest[xn1, {1, 0, 1, 0, 1, 1, 0}];
 Last[result]</pre>
- 
+
 <pre>{{0, 7, 4}, {{0, 1, 0, 0, 0, 1, 1, 0, 0}, 0}}</pre>
 
 <p>結果はXNで010001100，つまり100<sub>2</sub>=4<sub>10</sub>である。</p>
@@ -777,15 +777,16 @@ result = tmTest[u, initTape];</pre>
 
 <p>ヒント：できるならステップ数は13億程度になるだろう。</p>
 
-<p>C++でナイーブに実装し，手元のマシン（Core i5-6600, Visual Studi 2015）で時間を計ると表のようになった。（テープの実装は，std::stringとstd::listを試した。）</p>
+<p>C++でナイーブに実装し，手元のマシン（Core i5-6600, Visual Studi 2015）で時間を計ると表のようになった。このコードは，GCC 6.1やClang 3.8でもコンパイルできる（オプション<code>-std=c++14</code>が必要）。（テープの実装は，std::stringとstd::vector，std::listを試した。stringとvectorが速いのは，最初にreserveでメモリを確保しているためでもある。サイズをEUC(6, 8)に必要なテープの長さは6178である。）</p>
 
-<ul>
-<li>UN+1による1+1      の計算：  1294673762ステップ（Stringで  10s，listで 80s）</li>
-<li>UN*2による1*2      の計算：  7559780849ステップ（Stringで  62s，listで454s）</li>
-<li>XN*2による1*2      の計算：  4549996193ステップ（Stringで  39s，listで283s）</li>
-<li>XN+1による1+1      の計算： 45111627266ステップ（Stringで 387s）</li>
-<li>EUC によるLCD(6, 8)の計算：611931092371ステップ（Stringで4670s）</li>
-</ul>
+<table>
+<tr><th>計算</th><th>ステップ数</th><th>string</th><th>vector&lt;int&gt;</th><th>list&lt;int&gt;</th></tr>
+<tr><td>UN+1(1)</td><td>1294673762</td><td>6.9s</td><td>3.2s</td><td>65s</td></tr>
+<tr><td>UN*2(1)</td><td>7559780849</td><td></td><td>19s</td><td></td></tr>
+<tr><td>XN*2(1)</td><td>4549996193</td><td></td><td>12s</td><td></td></tr>
+<tr><td>XN+1(1)</td><td>45111627266</td><td>260s</td><td>120s</td><td></td></tr>
+<tr><td>EUC(6, 8)</td><td>611931092371</td><td></td><td>1500s</td><td></td></tr>
+</table>
 
 
 Mathematicaだけでこういう話をするなら次のようになる。（式が整数にならないから対角線論法を使えないと思うかもしれない。詳細は割愛するが，その心配は無用である。）
