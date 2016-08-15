@@ -789,6 +789,58 @@ result = tmTest[u, initTape];</pre>
 </table>
 
 
+<h2>おまけ2</h2>
+
+Mathematicaの関数TuringMachineには，ルールではなく，ルールをコード化した整数を与えることもできる。
+
+整数からルールを作る方法は次のとおり。（ヘッドの移動は左右1ずつに限定。）
+
+```
+rulesOf[n_, states_, colors_] := Flatten[
+  Table[
+   With[{x = Quotient[n, (2 colors states)^(colors (states - s) + c)]},
+    {s, c} -> {
+      Mod[Quotient[x, 2 colors], states] + 1,
+      Mod[Quotient[x, 2], colors],
+      If[Mod[x, 2] == 0, -1, 1]}],
+   {s, 1, states},
+   {c, 0, colors - 1}],
+  1]
+```
+
+```
+In[2]:= x = RandomInteger[{0, 8^4 - 1}]
+
+Out[2]= 1360
+
+In[3]:= rulesOf[x, 2, 2]
+
+Out[3]= {{1, 0} -> {2, 0, 1}, {1, 1} -> {1, 1, -1}, {2, 0} -> {1, 0, -1}, {2, 1} -> {1, 1, -1}}
+```
+
+ルールから整数を作る方法は次のとおり。（ヘッドの移動は左右1ずつに限定。）
+
+```
+numberOf[rules_, states_, colors_] :=
+ Sum[Module[{s2, c2, d2},
+   {s2, c2, d2} = {s, c} /. rules;
+   ((2 colors) (s2 - 1) + 2 c2 + 
+      If[d2 == -1, 0, 1]) (2 colors states)^(colors (states - s) + 
+       c)] ,
+  {s, 1, states},
+  {c, 0, colors - 1}]
+```
+
+```
+In[5]:= numberOf[rulesOf[x, 2, 2], 2, 2]
+
+Out[5]= 1360
+```
+
+TuringMachine用の万能チューリング機械の記述は割愛する。
+
+<h2>おまけ3</h2>
+
 Mathematicaだけでこういう話をするなら次のようになる。（式が整数にならないから対角線論法を使えないと思うかもしれない。詳細は割愛するが，その心配は無用である。）
 
 ```
