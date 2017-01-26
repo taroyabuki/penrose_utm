@@ -216,7 +216,7 @@ init = {{1, 1, 0}, {initTape, 0}};
 RulePlot[TuringMachine[toWolframRule[rule]], init, Length[result]]
 ```
 
-<img src='images/un1-evolution.png' alt='RulePlot UN+1 evolution' />
+<img src='images/un1-ruleplot.png' alt='UN+1' />
 
 第2の方法を試す。
 
