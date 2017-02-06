@@ -129,10 +129,10 @@ makeRuleTable[decodeDecimal[177642]]
 
 ```
 makeRule[decodedList_] :=
- MapIndexed[With[{i = First[#2] - 1},
-     {Quotient[i, 2], Mod[i, 2]} -> toTriple[#1]] &,
-   Split[decodedList,
-    And[# =!= R, # =!= L, # =!= STOP] &]] /. {L -> -1, R -> 1, STOP -> 0}
+ With[{in = Split[decodedList, And[# =!= R, # =!= L, # =!= STOP] &]},
+   Table[QuotientRemainder[i - 1, 2] -> toTriple[in[[i]]],
+    {i, 1, Length[in]}]
+   ] /. {L -> -1, R -> 1, STOP -> 0}
 ```
 
 例として，UN+1 (177642)のルールを作る。
