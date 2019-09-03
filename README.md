@@ -117,13 +117,13 @@ makeRuleTable[decodeDecimal[177642]]
 ここでは，二つのエミュレート法を採用する。
 
 + エミュレータの実装
-+ [`TuringMachine`](http://reference.wolfram.com/mathematica/ref/TuringMachine.ja.html)の利用
++ [`TuringMachine`](https://reference.wolfram.com/language/ref/TuringMachine.html)の利用
 
 ### エミュレータの実装
 
 割愛（`utm.m`の`tm`を参照）。
 
-### [`TuringMachine`](http://reference.wolfram.com/mathematica/ref/TuringMachine.ja.html)の利用
+### `TuringMachine`の利用
 
 `TuringMachine`は`{状態, 記号}->{状態, 記号, 移動方向}`のリストを与えて使う。先に作ったTMの記述をこのようなルールに変換する。
 
